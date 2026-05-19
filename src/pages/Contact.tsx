@@ -1,5 +1,6 @@
-import { useState, type FormEvent } from 'react'
+import { useState, useEffect, type FormEvent } from 'react'
 import { Phone, Mail, MapPin, Clock, Send, CheckCircle } from 'lucide-react'
+import PageHeader from '../components/PageHeader'
 import styles from './Contact.module.css'
 
 const info = [
@@ -23,6 +24,10 @@ export default function Contact() {
   const [form, setForm] = useState<FormState>(initialForm)
   const [submitted, setSubmitted] = useState(false)
 
+  useEffect(() => {
+    document.title = 'Contact Us | Auxin Public School'
+  }, [])
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
@@ -43,15 +48,11 @@ export default function Contact() {
 
   return (
     <main className="animateFadeInUp">
-      <section className={styles.hero}>
-        <div className="container">
-          <span className="badge">Get in Touch</span>
-          <h1 className="section-title">We'd Love to <span className="gradientText">Hear From You</span></h1>
-          <p className="section-subtitle">
-            Have a question about admissions, courses, or fees? Reach out — we'll get back to you promptly.
-          </p>
-        </div>
-      </section>
+      <PageHeader
+        badge="Get in Touch"
+        title={<>We'd Love to <span className="gradientText">Hear From You</span></>}
+        subtitle="Have a question about admissions, courses, or fees? Reach out — we'll get back to you promptly."
+      />
 
       <section className="section">
         <div className={`container ${styles.grid}`}>

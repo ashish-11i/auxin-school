@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
+import PageHeader from '../components/PageHeader'
 import styles from './Gallery.module.css'
 
 const categories = ['All', 'Campus', 'Classroom', 'Events', 'Sports', 'Achievements']
@@ -22,6 +23,10 @@ const items = [
 export default function Gallery() {
   const [active, setActive] = useState('All')
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+
+  useEffect(() => {
+    document.title = 'School Gallery | Auxin Public School'
+  }, [])
 
   const filtered = active === 'All' ? items : items.filter(i => i.category === active)
 
@@ -64,15 +69,11 @@ export default function Gallery() {
 
   return (
     <main className="animateFadeInUp">
-      <section className={styles.hero}>
-        <div className="container">
-          <span className="badge">Gallery</span>
-          <h1 className="section-title">Life at <span className="gradientText">Auxin Public School</span></h1>
-          <p className="section-subtitle">
-            A glimpse into our vibrant campus, classrooms, events, and proud achievements.
-          </p>
-        </div>
-      </section>
+      <PageHeader
+        badge="Gallery"
+        title={<>Life at <span className="gradientText">Auxin Public School</span></>}
+        subtitle="A glimpse into our vibrant campus, classrooms, events, and proud achievements."
+      />
 
       <section className="section">
         <div className="container">

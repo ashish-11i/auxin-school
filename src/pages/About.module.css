@@ -1,12 +1,3 @@
-.hero {
-  background: var(--hero-grad);
-  padding: calc(var(--header-height, 106px) + 40px) 0 60px;
-}
-
-.hero .section-title {
-  margin-bottom: 1rem;
-}
-
 .centered {
   text-align: center;
 }

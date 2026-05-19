@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import {
   BookOpen, Users, Award, Star, ArrowRight,
@@ -159,6 +159,10 @@ const faqs = [
 
 export default function Home() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null)
+
+  useEffect(() => {
+    document.title = 'Auxin Public School | Nurturing Minds & Building Foundations'
+  }, [])
 
   const toggleFaq = (index: number) => {
     setActiveFaq(activeFaq === index ? null : index)

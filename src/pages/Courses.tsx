@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BookOpen, CheckCircle, ArrowRight, Download, Award, Clock } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import PageHeader from '../components/PageHeader'
 import styles from './Courses.module.css'
 
 const schoolClasses = [
@@ -68,17 +69,17 @@ export default function Courses() {
   const [activeTab, setActiveTab] = useState(0)
   const currentClass = activeTab < schoolClasses.length ? schoolClasses[activeTab] : extraCurricular
 
+  useEffect(() => {
+    document.title = 'Programs & Curriculum | Auxin Public School'
+  }, [])
+
   return (
     <main className="animateFadeInUp">
-      <section className={styles.hero}>
-        <div className="container">
-          <span className="badge">Programs & Curriculum</span>
-          <h1 className="section-title">Education for Every <span className="gradientText">Stage</span></h1>
-          <p className="section-subtitle">
-            From Class 1 to Class 5 — we have the right primary program to help your child grow, learn, and excel.
-          </p>
-        </div>
-      </section>
+      <PageHeader
+        badge="Programs & Curriculum"
+        title={<>Education for Every <span className="gradientText">Stage</span></>}
+        subtitle="From Class 1 to Class 5 — we have the right primary program to help your child grow, learn, and excel."
+      />
 
       {/* School Section */}
       <section className="section">

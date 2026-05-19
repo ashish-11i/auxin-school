@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import { Target, Eye, Heart, BookOpen, Award, Quote } from 'lucide-react'
+import PageHeader from '../components/PageHeader'
 import styles from './About.module.css'
 
 const values = [
@@ -35,18 +37,17 @@ const milestones = [
 ]
 
 export default function About() {
+  useEffect(() => {
+    document.title = 'About Us | Auxin Public School'
+  }, [])
+
   return (
     <main className="animateFadeInUp">
-      {/* Hero */}
-      <section className={styles.hero}>
-        <div className="container">
-          <span className="badge">About Us</span>
-          <h1 className="section-title"><span className="gradientText">Nurturing Minds</span>,<br />Building Strong Foundations</h1>
-          <p className="section-subtitle">
-            Auxin Public School has been a trusted beacon of quality primary education in Salempur, Deoria since 2014, committed to fostering curiosity and confidence.
-          </p>
-        </div>
-      </section>
+      <PageHeader
+        badge="About Us"
+        title={<><span className="gradientText">Nurturing Minds</span>,<br />Building Strong Foundations</>}
+        subtitle="Auxin Public School has been a trusted beacon of quality primary education in Salempur, Deoria since 2014, committed to fostering curiosity and confidence."
+      />
 
       {/* Story & Principal Desk */}
       <section className="section">

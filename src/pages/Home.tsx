@@ -6,73 +6,19 @@ import {
   Bell, Calendar, Trophy, AlertCircle,
   Plus, Minus
 } from 'lucide-react'
+import { notices, events } from '../data/notices'
 import styles from './Home.module.css'
 
-const notices = [
-  {
-    icon: <Trophy size={18} />,
-    tag: 'Result',
-    tagColor: '#16a34a',
-    title: 'Primary School Annual Results',
-    desc: 'Congratulations to all our students for their outstanding performance in the annual examinations. 100% pass rate achieved!',
-    date: '15 May 2025',
-  },
-  {
-    icon: <Calendar size={18} />,
-    tag: 'Exam',
-    tagColor: '#d97706',
-    title: 'Half-Yearly Exams Schedule',
-    desc: 'Half-yearly examinations for School (Class 1–5) will be held from 10 June to 18 June 2025.',
-    date: '1 May 2025',
-  },
-  {
-    icon: <Bell size={18} />,
-    tag: 'Holiday',
-    tagColor: '#7c3aed',
-    title: 'Summer Vacation Notice',
-    desc: 'School will remain closed for summer vacation from 20 June to 30 June 2025. Office remains open for admissions.',
-    date: '28 Apr 2025',
-  },
-  {
-    icon: <AlertCircle size={18} />,
-    tag: 'Admission',
-    tagColor: '#1a56db',
-    title: 'Admissions Open – Session 2025–26',
-    desc: 'New admissions are open for all classes. Limited seats. Contact us or visit the school to enrol.',
-    date: '1 Apr 2025',
-  },
-]
-
-const events = [
-  {
-    date: '24',
-    month: 'May',
-    title: 'Parent-Teacher Meeting (PTM)',
-    time: '09:00 AM – 12:30 PM',
-    desc: 'Discussion of student progress and distribution of unit test feedback cards.'
-  },
-  {
-    date: '05',
-    month: 'Jun',
-    title: 'World Environment Day',
-    time: '08:30 AM – 11:30 AM',
-    desc: 'Tree plantation drive, poster making, and environmental awareness quiz.'
-  },
-  {
-    date: '21',
-    month: 'Jun',
-    title: 'International Yoga Day',
-    time: '07:30 AM – 09:00 AM',
-    desc: 'Special yoga and mindfulness session for children led by teachers.'
-  },
-  {
-    date: '01',
-    month: 'Jul',
-    title: 'Admission Interactions',
-    time: '09:00 AM – 01:00 PM',
-    desc: 'Interactive review and verification checks for phase-2 admissions.'
+const getNoticeIcon = (iconName: string) => {
+  switch (iconName) {
+    case 'trophy': return <Trophy size={18} />
+    case 'calendar': return <Calendar size={18} />
+    case 'bell': return <Bell size={18} />
+    case 'alert':
+    default:
+      return <AlertCircle size={18} />
   }
-]
+}
 
 const stats = [
   { value: '200+', label: 'Students Enrolled' },
@@ -329,19 +275,19 @@ export default function Home() {
               <div className={styles.noticeList}>
                 {notices.map(n => (
                   <div key={n.title} className={`card ${styles.verticalNotice}`}>
-                    <div className={styles.noticeTop}>
-                      <span
-                        className={styles.noticeTag}
-                        style={{ background: n.tagColor + '18', color: n.tagColor }}
-                      >
-                        {n.icon} {n.tag}
-                      </span>
-                      <span className={styles.noticeDate}>{n.date}</span>
-                    </div>
-                    <h3 className={styles.noticeTitle}>{n.title}</h3>
-                    <p className={styles.noticeDesc}>{n.desc}</p>
-                  </div>
-                ))}
+                     <div className={styles.noticeTop}>
+                       <span
+                         className={styles.noticeTag}
+                         style={{ background: n.tagColor + '18', color: n.tagColor }}
+                       >
+                         {getNoticeIcon(n.iconName)} {n.tag}
+                       </span>
+                       <span className={styles.noticeDate}>{n.date}</span>
+                     </div>
+                     <h3 className={styles.noticeTitle}>{n.title}</h3>
+                     <p className={styles.noticeDesc}>{n.desc}</p>
+                   </div>
+                 ))}
               </div>
             </div>
 

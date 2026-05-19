@@ -1,14 +1,30 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { X, Megaphone } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { notices } from '../data/notices'
+import { isFirebaseConfigured, getDbNotices } from '../firebase'
 import styles from './AnnouncementBar.module.css'
 
 export default function AnnouncementBar() {
   const [visible, setVisible] = useState(true)
+  const [noticesList, setNoticesList] = useState(notices)
+
+  useEffect(() => {
+    if (!isFirebaseConfigured) return
+    let active = true
+    const fetchNotices = async () => {
+      const dbNotices = await getDbNotices()
+      if (active && dbNotices.length > 0) {
+        setNoticesList(dbNotices)
+      }
+    }
+    fetchNotices()
+    return () => { active = false }
+  }, [])
 
   if (!visible) return null
 
-  const tickerText = "★ Admissions Open for Session 2025–26! Limited seats available for Classes 1 to 5. ★ Parent-Teacher Meeting (PTM) scheduled on Saturday, May 24th. ★ World Environment Day Celebrations on June 5th."
+  const tickerText = noticesList.map(n => `★ ${n.title}: ${n.desc}`).join('   ') + '   '
 
   return (
     <div className={styles.bar}>

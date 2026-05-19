@@ -9,6 +9,7 @@ import About from './pages/About'
 import Courses from './pages/Courses'
 import Gallery from './pages/Gallery'
 import Contact from './pages/Contact'
+import Admin from './pages/Admin'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -48,6 +49,7 @@ export default function App() {
         <Route path="/courses" element={<Courses />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
       <Footer />
       <WhatsAppButton />

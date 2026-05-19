@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import { Menu, X, GraduationCap, Sun, Moon, Bell } from 'lucide-react'
 import { notices, Notice } from '../data/notices'
+import { isFirebaseConfigured, getDbNotices } from '../firebase'
 import styles from './Navbar.module.css'
 
 const links = [
@@ -55,10 +56,25 @@ export default function Navbar() {
     return () => document.removeEventListener('click', closeDropdown)
   }, [showDropdown])
 
-  const unreadCount = notices.filter(n => !readNoticeIds.includes(n.id)).length
+  const [noticesList, setNoticesList] = useState<Notice[]>(notices)
+
+  useEffect(() => {
+    if (!isFirebaseConfigured) return
+    let active = true
+    const fetchNotices = async () => {
+      const dbNotices = await getDbNotices()
+      if (active && dbNotices.length > 0) {
+        setNoticesList(dbNotices)
+      }
+    }
+    fetchNotices()
+    return () => { active = false }
+  }, [])
+
+  const unreadCount = noticesList.filter(n => !readNoticeIds.includes(n.id)).length
 
   const markAllRead = () => {
-    const allIds = notices.map(n => n.id)
+    const allIds = noticesList.map(n => n.id)
     setReadNoticeIds(allIds)
     localStorage.setItem('read_notices', JSON.stringify(allIds))
   }
@@ -125,7 +141,7 @@ export default function Navbar() {
                   )}
                 </div>
                 <div className={styles.dropdownList}>
-                  {notices.map(n => {
+                  {noticesList.map(n => {
                     const isRead = readNoticeIds.includes(n.id)
                     return (
                       <div

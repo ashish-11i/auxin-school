@@ -7,6 +7,7 @@ import {
   Plus, Minus
 } from 'lucide-react'
 import { notices, events } from '../data/notices'
+import { isFirebaseConfigured, getDbNotices, getDbEvents } from '../firebase'
 import styles from './Home.module.css'
 
 const getNoticeIcon = (iconName: string) => {
@@ -105,9 +106,26 @@ const faqs = [
 
 export default function Home() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null)
+  const [noticesList, setNoticesList] = useState(notices)
+  const [eventsList, setEventsList] = useState(events)
 
   useEffect(() => {
     document.title = 'Auxin Public School | Nurturing Minds & Building Foundations'
+  }, [])
+
+  useEffect(() => {
+    if (!isFirebaseConfigured) return
+    let active = true
+    const fetchData = async () => {
+      const dbNotices = await getDbNotices()
+      const dbEvents = await getDbEvents()
+      if (active) {
+        if (dbNotices.length > 0) setNoticesList(dbNotices)
+        if (dbEvents.length > 0) setEventsList(dbEvents)
+      }
+    }
+    fetchData()
+    return () => { active = false }
   }, [])
 
   const toggleFaq = (index: number) => {
@@ -273,7 +291,7 @@ export default function Home() {
                 <h2 className="section-title"><span className="gradientText">Notice Board</span></h2>
               </div>
               <div className={styles.noticeList}>
-                {notices.map(n => (
+                {noticesList.map(n => (
                   <div key={n.title} className={`card ${styles.verticalNotice}`}>
                      <div className={styles.noticeTop}>
                        <span
@@ -298,7 +316,7 @@ export default function Home() {
                 <h2 className="section-title">Upcoming <span className="gradientText">Events</span></h2>
               </div>
               <div className={styles.eventList}>
-                {events.map((e, idx) => (
+                {eventsList.map((e, idx) => (
                   <div key={idx} className={`card ${styles.eventCard}`}>
                     <div className={styles.calendarSheet}>
                       <div className={styles.sheetMonth}>{e.month}</div>

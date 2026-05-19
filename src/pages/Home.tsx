@@ -1,8 +1,10 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   BookOpen, Users, Award, Star, ArrowRight,
-  CheckCircle, GraduationCap, Brain, Lightbulb,
-  Bell, Calendar, Trophy, AlertCircle
+  CheckCircle, Brain, Lightbulb,
+  Bell, Calendar, Trophy, AlertCircle,
+  Plus, Minus
 } from 'lucide-react'
 import styles from './Home.module.css'
 
@@ -11,8 +13,8 @@ const notices = [
     icon: <Trophy size={18} />,
     tag: 'Result',
     tagColor: '#16a34a',
-    title: 'Class 10 Board Result 2024–25',
-    desc: 'Congratulations! All our Class 10 coaching students passed. 3 students scored above 90%.',
+    title: 'Primary School Annual Results',
+    desc: 'Congratulations to all our students for their outstanding performance in the annual examinations. 100% pass rate achieved!',
     date: '15 May 2025',
   },
   {
@@ -28,7 +30,7 @@ const notices = [
     tag: 'Holiday',
     tagColor: '#7c3aed',
     title: 'Summer Vacation Notice',
-    desc: 'School will remain closed for summer vacation from 20 June to 30 June 2025. Coaching batches continue.',
+    desc: 'School will remain closed for summer vacation from 20 June to 30 June 2025. Office remains open for admissions.',
     date: '28 Apr 2025',
   },
   {
@@ -41,6 +43,37 @@ const notices = [
   },
 ]
 
+const events = [
+  {
+    date: '24',
+    month: 'May',
+    title: 'Parent-Teacher Meeting (PTM)',
+    time: '09:00 AM – 12:30 PM',
+    desc: 'Discussion of student progress and distribution of unit test feedback cards.'
+  },
+  {
+    date: '05',
+    month: 'Jun',
+    title: 'World Environment Day',
+    time: '08:30 AM – 11:30 AM',
+    desc: 'Tree plantation drive, poster making, and environmental awareness quiz.'
+  },
+  {
+    date: '21',
+    month: 'Jun',
+    title: 'International Yoga Day',
+    time: '07:30 AM – 09:00 AM',
+    desc: 'Special yoga and mindfulness session for children led by teachers.'
+  },
+  {
+    date: '01',
+    month: 'Jul',
+    title: 'Admission Interactions',
+    time: '09:00 AM – 01:00 PM',
+    desc: 'Interactive review and verification checks for phase-2 admissions.'
+  }
+]
+
 const stats = [
   { value: '200+', label: 'Students Enrolled' },
   { value: '10+', label: 'Experienced Teachers' },
@@ -51,13 +84,13 @@ const stats = [
 const features = [
   {
     icon: <BookOpen size={28} />,
-    title: 'School (Class 1–5)',
+    title: 'Primary School (Class 1–5)',
     desc: 'A nurturing environment where young learners build strong academic foundations with activity-based learning.',
   },
   {
     icon: <Brain size={28} />,
-    title: 'Coaching (Class 1–12)',
-    desc: 'Expert coaching across all subjects for every grade — from basics to board exam preparation.',
+    title: 'Modern Curriculum',
+    desc: 'Focusing on mathematics, science, language skills, and foundational concepts for cognitive growth.',
   },
   {
     icon: <Lightbulb size={28} />,
@@ -66,8 +99,8 @@ const features = [
   },
   {
     icon: <Award size={28} />,
-    title: 'Proven Results',
-    desc: 'Consistent top results in school and board exams, with many students securing merit positions.',
+    title: 'Proven Excellence',
+    desc: 'Consistent outstanding results in school examinations, helping students stand out and succeed.',
   },
 ]
 
@@ -88,9 +121,9 @@ const testimonials = [
     stars: 5,
   },
   {
-    name: 'Rahul Verma',
-    role: 'Class 10 Coaching Student',
-    text: 'The coaching here completely transformed my understanding of Maths and Science. I scored 92% in boards thanks to this coaching.',
+    name: 'Sanjay Kumar',
+    role: 'Parent of Class 5 student',
+    text: 'The teachers here are very friendly and experienced. My son\'s foundation in mathematics and science has become extremely strong.',
     stars: 5,
   },
   {
@@ -101,32 +134,83 @@ const testimonials = [
   },
 ]
 
+const faqs = [
+  {
+    q: 'What classes does Auxin Public School offer?',
+    a: 'We offer primary school education for Classes 1 to 5. We focus on building strong foundational skills in languages, mathematics, science, and environmental studies during these critical early years.'
+  },
+  {
+    q: 'What are the school hours?',
+    a: 'Our primary school classes run from Monday to Saturday, 8:00 AM to 1:30 PM. We maintain a balanced schedule that covers core academics, co-curricular activities, and active recess.'
+  },
+  {
+    q: 'Is school transportation available?',
+    a: 'Yes, we provide safe and reliable van and bus transportation services for students residing in Salempur and nearby villages. Contact our office for details on routes and fee structures.'
+  },
+  {
+    q: 'What is the student-to-teacher ratio?',
+    a: 'We keep our class sizes small with a maximum of 25 students per class. This allows our teachers to give individual attention and personalized guidance to every child.'
+  },
+  {
+    q: 'How can I apply for admission?',
+    a: 'You can initiate admission by clicking the \'Enquire Now\' button, filling out the enquiry form on our Contact page, or visiting our campus on Sohnag Road. We guide you through the documents and basic interaction check.'
+  }
+]
+
 export default function Home() {
+  const [activeFaq, setActiveFaq] = useState<number | null>(null)
+
+  const toggleFaq = (index: number) => {
+    setActiveFaq(activeFaq === index ? null : index)
+  }
+
   return (
     <main>
       {/* Hero */}
       <section className={styles.hero}>
         <div className={`container ${styles.heroContent}`}>
-          <span className="badge">Welcome to Auxin Public School</span>
-          <h1>
-            Where Every Child's <br />
-            <span className={styles.highlight}>Bright Future</span> Begins
-          </h1>
-          <p>
-            Quality school education for Classes 1–5 and comprehensive coaching
-            for Classes 1–12. Affordable, caring, and results-driven.
-          </p>
-          <div className={styles.heroBtns}>
-            <Link to="/contact" className="btn btn-primary">
-              Apply for Admission <ArrowRight size={18} />
-            </Link>
-            <Link to="/courses" className="btn btn-outline">
-              Explore Courses
-            </Link>
+          <div className={styles.heroText}>
+            <span className="badge">Welcome to Auxin Public School</span>
+            <h1>
+              Where Every Child's <br />
+              <span className={styles.highlight}>Bright Future</span> Begins
+            </h1>
+            <p>
+              Quality primary school education for Classes 1–5. Affordable, caring, and foundation-focused.
+            </p>
+            <div className={styles.heroBtns}>
+              <Link to="/contact" className="btn btn-primary">
+                Apply for Admission <ArrowRight size={18} />
+              </Link>
+              <Link to="/courses" className="btn btn-outline">
+                Explore Courses
+              </Link>
+            </div>
           </div>
-        </div>
-        <div className={styles.heroIllustration}>
-          <GraduationCap size={220} strokeWidth={0.6} />
+          <div className={styles.heroVisual}>
+            <div className={styles.imageWrapper}>
+              <img
+                src="/hero-students.png"
+                alt="Happy students at Auxin Public School"
+                className={styles.heroImage}
+              />
+              <div className={styles.imageCard}>
+                <Award size={24} className={styles.imageCardIcon} />
+                <div>
+                  <h4>100% Pass Rate</h4>
+                  <p>In Board Exams</p>
+                </div>
+              </div>
+              <div className={styles.imageCardSecondary}>
+                <Users size={24} className={styles.imageCardIcon} />
+                <div>
+                  <h4>200+ Students</h4>
+                  <p>Enrolled this year</p>
+                </div>
+              </div>
+            </div>
+            <div className={styles.blob}></div>
+          </div>
         </div>
       </section>
 
@@ -149,7 +233,7 @@ export default function Home() {
             <span className="badge">What We Offer</span>
             <h2 className="section-title">Education That Makes a Difference</h2>
             <p className="section-subtitle">
-              From foundation school education to advanced exam coaching — we have it all under one roof.
+              Building strong academic foundations and personal character from Class 1 to 5.
             </p>
           </div>
           <div className={styles.featuresGrid}>
@@ -189,7 +273,7 @@ export default function Home() {
             <div className={styles.whyCard}>
               <Users size={48} />
               <h3>Join Our Growing Family</h3>
-              <p>Over 200 students trust us for quality education and coaching.</p>
+              <p>Over 200 students trust us for quality primary school education.</p>
               <Link to="/contact" className="btn btn-accent" style={{ marginTop: '1rem' }}>
                 Get in Touch
               </Link>
@@ -227,34 +311,96 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Notice Board */}
+      {/* Notice Board & Events Calendar */}
       <section className={`section ${styles.noticeSection}`}>
         <div className="container">
-          <div className={`section-header ${styles.noticeHeader}`}>
-            <div>
-              <span className="badge">Notice Board</span>
-              <h2 className="section-title">Latest Announcements</h2>
-            </div>
-            <Link to="/contact" className="btn btn-outline">
-              View All <ArrowRight size={16} />
-            </Link>
-          </div>
-          <div className={styles.noticeGrid}>
-            {notices.map(n => (
-              <div key={n.title} className={`card ${styles.noticeCard}`}>
-                <div className={styles.noticeTop}>
-                  <span
-                    className={styles.noticeTag}
-                    style={{ background: n.tagColor + '18', color: n.tagColor }}
-                  >
-                    {n.icon} {n.tag}
-                  </span>
-                  <span className={styles.noticeDate}>{n.date}</span>
-                </div>
-                <h3 className={styles.noticeTitle}>{n.title}</h3>
-                <p className={styles.noticeDesc}>{n.desc}</p>
+          <div className={styles.boardGrid}>
+            
+            {/* Notices Column */}
+            <div className={styles.noticeCol}>
+              <div className={styles.columnHead}>
+                <span className="badge">Announcements</span>
+                <h2 className="section-title">Notice Board</h2>
               </div>
-            ))}
+              <div className={styles.noticeList}>
+                {notices.map(n => (
+                  <div key={n.title} className={`card ${styles.verticalNotice}`}>
+                    <div className={styles.noticeTop}>
+                      <span
+                        className={styles.noticeTag}
+                        style={{ background: n.tagColor + '18', color: n.tagColor }}
+                      >
+                        {n.icon} {n.tag}
+                      </span>
+                      <span className={styles.noticeDate}>{n.date}</span>
+                    </div>
+                    <h3 className={styles.noticeTitle}>{n.title}</h3>
+                    <p className={styles.noticeDesc}>{n.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Events Column */}
+            <div className={styles.eventCol}>
+              <div className={styles.columnHead}>
+                <span className="badge">School Calendar</span>
+                <h2 className="section-title">Upcoming Events</h2>
+              </div>
+              <div className={styles.eventList}>
+                {events.map((e, idx) => (
+                  <div key={idx} className={`card ${styles.eventCard}`}>
+                    <div className={styles.calendarSheet}>
+                      <div className={styles.sheetMonth}>{e.month}</div>
+                      <div className={styles.sheetDate}>{e.date}</div>
+                    </div>
+                    <div className={styles.eventDetails}>
+                      <h3>{e.title}</h3>
+                      <span className={styles.eventTime}>{e.time}</span>
+                      <p>{e.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className={`section ${styles.faqSection}`}>
+        <div className="container">
+          <div className="section-header">
+            <span className="badge">Frequently Asked Questions</span>
+            <h2 className="section-title">Common Questions from Parents</h2>
+            <p className="section-subtitle">
+              Find answers to the most common queries about admissions, schedules, transportation, and school policies.
+            </p>
+          </div>
+          <div className={styles.faqList}>
+            {faqs.map((faq, index) => {
+              const isOpen = activeFaq === index
+              return (
+                <div key={index} className={`${styles.faqItem} ${isOpen ? styles.faqOpen : ''}`}>
+                  <button
+                    className={styles.faqHeader}
+                    onClick={() => toggleFaq(index)}
+                    aria-expanded={isOpen}
+                  >
+                    <span>{faq.q}</span>
+                    <span className={styles.faqIcon}>
+                      {isOpen ? <Minus size={18} /> : <Plus size={18} />}
+                    </span>
+                  </button>
+                  <div className={styles.faqContent}>
+                    <div className={styles.faqAnswer}>
+                      <p>{faq.a}</p>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
       </section>

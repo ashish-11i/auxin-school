@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { X } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import styles from './Gallery.module.css'
 
 const categories = ['All', 'Campus', 'Classroom', 'Events', 'Sports', 'Achievements']
@@ -21,16 +21,53 @@ const items = [
 
 export default function Gallery() {
   const [active, setActive] = useState('All')
-  const [lightbox, setLightbox] = useState<typeof items[0] | null>(null)
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
 
   const filtered = active === 'All' ? items : items.filter(i => i.category === active)
 
+  const currentItem = lightboxIndex !== null ? filtered[lightboxIndex] : null
+
+  const handleNext = () => {
+    if (lightboxIndex !== null) {
+      setLightboxIndex((lightboxIndex + 1) % filtered.length)
+    }
+  }
+
+  const handlePrev = () => {
+    if (lightboxIndex !== null) {
+      setLightboxIndex((lightboxIndex - 1 + filtered.length) % filtered.length)
+    }
+  }
+
+  const handleClose = () => {
+    setLightboxIndex(null)
+  }
+
+  useEffect(() => {
+    if (lightboxIndex === null) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight') {
+        handleNext()
+      } else if (e.key === 'ArrowLeft') {
+        handlePrev()
+      } else if (e.key === 'Escape') {
+        handleClose()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [lightboxIndex, filtered])
+
   return (
-    <main style={{ paddingTop: '70px' }}>
+    <main style={{ paddingTop: 'var(--header-height, 106px)' }}>
       <section className={styles.hero}>
         <div className="container">
           <span className="badge">Gallery</span>
-          <h1 className="section-title">Life at Chandan School</h1>
+          <h1 className="section-title">Life at Auxin Public School</h1>
           <p className="section-subtitle">
             A glimpse into our vibrant campus, classrooms, events, and proud achievements.
           </p>
@@ -54,14 +91,14 @@ export default function Gallery() {
 
           {/* Grid */}
           <div className={styles.grid}>
-            {filtered.map(item => (
+            {filtered.map((item, idx) => (
               <div
                 key={item.id}
                 className={styles.item}
-                onClick={() => setLightbox(item)}
+                onClick={() => setLightboxIndex(idx)}
                 role="button"
                 tabIndex={0}
-                onKeyDown={e => e.key === 'Enter' && setLightbox(item)}
+                onKeyDown={e => e.key === 'Enter' && setLightboxIndex(idx)}
               >
                 <img src={item.src} alt={item.title} className={styles.photo} loading="lazy" />
                 <div className={styles.overlay}>
@@ -76,18 +113,26 @@ export default function Gallery() {
       </section>
 
       {/* Lightbox */}
-      {lightbox && (
-        <div className={styles.lightbox} onClick={() => setLightbox(null)}>
+      {currentItem && (
+        <div className={styles.lightbox} onClick={handleClose}>
+          <button className={`${styles.navBtn} ${styles.prevBtn}`} onClick={e => { e.stopPropagation(); handlePrev(); }} aria-label="Previous image">
+            <ChevronLeft size={36} />
+          </button>
+          
           <div className={styles.lightboxContent} onClick={e => e.stopPropagation()}>
-            <button className={styles.close} onClick={() => setLightbox(null)}>
+            <button className={styles.close} onClick={handleClose} aria-label="Close lightbox">
               <X size={24} />
             </button>
-            <img src={lightbox.src} alt={lightbox.title} className={styles.lightboxImg} />
+            <img src={currentItem.src} alt={currentItem.title} className={styles.lightboxImg} />
             <div className={styles.lightboxInfo}>
-              <h3>{lightbox.title}</h3>
-              <span>{lightbox.category}</span>
+              <h3>{currentItem.title}</h3>
+              <span>{currentItem.category}</span>
             </div>
           </div>
+
+          <button className={`${styles.navBtn} ${styles.nextBtn}`} onClick={e => { e.stopPropagation(); handleNext(); }} aria-label="Next image">
+            <ChevronRight size={36} />
+          </button>
         </div>
       )}
     </main>

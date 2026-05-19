@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import AnnouncementBar from './components/AnnouncementBar'
@@ -17,11 +17,31 @@ function ScrollToTop() {
 }
 
 export default function App() {
+  const headerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const header = headerRef.current
+    if (!header) return
+
+    const updateHeight = () => {
+      const height = header.offsetHeight
+      document.documentElement.style.setProperty('--header-height', `${height}px`)
+    }
+
+    updateHeight()
+    const observer = new ResizeObserver(updateHeight)
+    observer.observe(header)
+
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <>
       <ScrollToTop />
-      <AnnouncementBar />
-      <Navbar />
+      <div className="header-wrapper" ref={headerRef}>
+        <AnnouncementBar />
+        <Navbar />
+      </div>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />

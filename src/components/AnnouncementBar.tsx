@@ -14,7 +14,7 @@ export default function AnnouncementBar() {
         <Megaphone size={16} />
         <p>
           <strong>Admissions Open for Session 2025–26!</strong>
-          {' '}Limited seats available for School (Class 1–5) and Coaching (Class 1–12).{' '}
+          {' '}Limited seats available for School (Class 1–5).{' '}
           <Link to="/contact">Enquire Now →</Link>
         </p>
         <button onClick={() => setVisible(false)} aria-label="Close">

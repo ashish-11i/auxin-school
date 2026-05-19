@@ -1,60 +1,81 @@
-import { BookOpen, GraduationCap, CheckCircle, ArrowRight } from 'lucide-react'
+import { useState } from 'react'
+import { BookOpen, CheckCircle, ArrowRight, Download, Award, Clock } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import styles from './Courses.module.css'
 
 const schoolClasses = [
-  { grade: 'Class 1', subjects: ['English', 'Hindi', 'Mathematics', 'Environmental Studies', 'Art & Craft'], fee: '₹800/month' },
-  { grade: 'Class 2', subjects: ['English', 'Hindi', 'Mathematics', 'Environmental Studies', 'Art & Craft'], fee: '₹800/month' },
-  { grade: 'Class 3', subjects: ['English', 'Hindi', 'Mathematics', 'Science', 'Social Studies'], fee: '₹900/month' },
-  { grade: 'Class 4', subjects: ['English', 'Hindi', 'Mathematics', 'Science', 'Social Studies'], fee: '₹900/month' },
-  { grade: 'Class 5', subjects: ['English', 'Hindi', 'Mathematics', 'Science', 'Social Studies', 'Computer Basics'], fee: '₹1,000/month' },
+  {
+    grade: 'Class 1',
+    fee: '₹800/month',
+    timing: '8:00 AM – 1:30 PM',
+    subjects: ['English Reading & Phonics', 'Hindi Vyakaran', 'Mathematics (Foundational)', 'Environmental Studies', 'Art & Craft'],
+    objectives: 'Focuses on sensory learning, basic numeracy, reading fluently, letter recognition, and creative expression.',
+    color: '#3b82f6'
+  },
+  {
+    grade: 'Class 2',
+    fee: '₹800/month',
+    timing: '8:00 AM – 1:30 PM',
+    subjects: ['English Grammar', 'Hindi Sahitya', 'Mathematics (Arithmetic)', 'Environmental Studies', 'Art & Craft'],
+    objectives: 'Introduces advanced vocabulary, arithmetic operations, basic safety habits, and collective teamwork.',
+    color: '#10b981'
+  },
+  {
+    grade: 'Class 3',
+    fee: '₹900/month',
+    timing: '8:00 AM – 1:30 PM',
+    subjects: ['English Composition', 'Hindi Vyakaran', 'Mathematics (Word Problems)', 'General Science', 'Social Studies'],
+    objectives: 'Prepares kids for analytical thinking, story composition, basics of plants and animal life, and regional geography.',
+    color: '#f59e0b'
+  },
+  {
+    grade: 'Class 4',
+    fee: '₹900/month',
+    timing: '8:00 AM – 1:30 PM',
+    subjects: ['English Literature', 'Hindi Composition', 'Mathematics (Fractions & Decimals)', 'General Science', 'Social Studies'],
+    objectives: 'Deepens understanding of fraction math, historical monuments, digestive and skeletal systems, and essay writing.',
+    color: '#8b5cf6'
+  },
+  {
+    grade: 'Class 5',
+    fee: '₹1,000/month',
+    timing: '8:00 AM – 1:30 PM',
+    subjects: ['English & Hindi Literature', 'Mathematics (Geometry & Algebra Basics)', 'General Science', 'Social Studies', 'Computer Basics'],
+    objectives: 'A transition year focusing on geometric constructions, basics of spreadsheets, weather cycles, and national history.',
+    color: '#ec4899'
+  }
 ]
 
-const coachingGroups = [
-  {
-    label: 'Primary (Class 1–5)',
-    desc: 'Foundation coaching to reinforce school learning and build exam confidence.',
-    subjects: ['Mathematics', 'English', 'Hindi', 'Science', 'Social Studies'],
-    fee: '₹600/month',
-  },
-  {
-    label: 'Middle School (Class 6–8)',
-    desc: 'Structured coaching for all major subjects as the curriculum becomes more challenging.',
-    subjects: ['Mathematics', 'Science', 'English', 'Hindi', 'Social Science', 'Sanskrit'],
-    fee: '₹900/month',
-  },
-  {
-    label: 'High School (Class 9–10)',
-    desc: 'Intensive board exam preparation with regular tests and doubt sessions.',
-    subjects: ['Mathematics', 'Science (Physics, Chemistry, Biology)', 'English', 'Hindi', 'Social Science'],
-    fee: '₹1,400/month',
-  },
-  {
-    label: 'Senior Secondary (Class 11–12)',
-    desc: 'Expert coaching for Science and Commerce streams with board & entrance exam focus.',
-    subjects: ['Physics', 'Chemistry', 'Mathematics / Biology', 'English', 'Accountancy / Economics'],
-    fee: '₹1,800/month',
-  },
-]
+const extraCurricular = {
+  grade: 'Activities',
+  fee: 'Included',
+  timing: 'Every Wednesday & Saturday',
+  subjects: ['Yoga & Gymnastics', 'Debate & Public Speaking', 'Drawing & Crafting', 'Music & Drama', 'Spelling Bee & Quizzes'],
+  objectives: 'Nurtures creative talents, builds self-confidence, leadership qualities, physical fitness, and mental wellness.',
+  color: '#06b6d4'
+}
 
 const highlights = [
-  'Regular weekly tests and progress reports',
-  'Special doubt-clearing sessions every Saturday',
-  'Study material provided at no extra cost',
-  'Board exam special batches from January',
-  'Individual attention in small batch sizes (max 25 students)',
-  'Parent-teacher meetings every month',
+  'Regular weekly progress reports and evaluations',
+  'Special doubt-clearing and guidance sessions',
+  'Textbooks and study aids provided at no extra cost',
+  'Interactive learning classes and computer basics',
+  'Small class sizes (max 25 students) for personalized attention',
+  'Parent-teacher interactive meetings every month',
 ]
 
 export default function Courses() {
+  const [activeTab, setActiveTab] = useState(0)
+  const currentClass = activeTab < schoolClasses.length ? schoolClasses[activeTab] : extraCurricular
+
   return (
-    <main style={{ paddingTop: '70px' }}>
+    <main style={{ paddingTop: 'var(--header-height, 106px)' }}>
       <section className={styles.hero}>
         <div className="container">
-          <span className="badge">Programs & Courses</span>
+          <span className="badge">Programs & Curriculum</span>
           <h1 className="section-title">Education for Every Stage</h1>
           <p className="section-subtitle">
-            From Class 1 to Class 12 — we have the right program to help your child grow, learn, and excel.
+            From Class 1 to Class 5 — we have the right primary program to help your child grow, learn, and excel.
           </p>
         </div>
       </section>
@@ -68,62 +89,92 @@ export default function Courses() {
             </div>
             <div>
               <span className="badge">Primary School</span>
-              <h2 className="section-title">Auxin Public School — Class 1 to 5</h2>
+              <h2 className="section-title">Curriculum Explorer (Class 1–5)</h2>
               <p className="section-subtitle">
-                A safe, nurturing school where young children develop curiosity, confidence, and a love for learning.
+                Explore the learning highlights, schedules, fees, and syllabus details for our primary education levels.
               </p>
             </div>
           </div>
 
-          <div className={styles.classGrid}>
-            {schoolClasses.map(c => (
-              <div key={c.grade} className={`card ${styles.classCard}`}>
-                <div className={styles.classHeader}>
-                  <h3>{c.grade}</h3>
-                  <span className={styles.fee}>{c.fee}</span>
-                </div>
-                <ul className={styles.subjectList}>
-                  {c.subjects.map(s => (
-                    <li key={s}><CheckCircle size={15} /> {s}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Coaching Section */}
-      <section className={`section ${styles.coachingSection}`}>
-        <div className="container">
-          <div className={styles.sectionHead}>
-            <div className={styles.sectionIcon} style={{ background: '#fef3c7', color: '#d97706' }}>
-              <GraduationCap size={30} />
+          <div className={styles.explorerContainer}>
+            {/* Left Sidebar Tabs */}
+            <div className={styles.tabsSidebar}>
+              {schoolClasses.map((c, index) => (
+                <button
+                  key={c.grade}
+                  className={`${styles.tabBtn} ${activeTab === index ? styles.tabActive : ''}`}
+                  onClick={() => setActiveTab(index)}
+                  style={{ '--active-color': c.color } as React.CSSProperties}
+                >
+                  <span className={styles.tabIndicator} style={{ backgroundColor: c.color }} />
+                  {c.grade}
+                </button>
+              ))}
+              <button
+                className={`${styles.tabBtn} ${activeTab === schoolClasses.length ? styles.tabActive : ''}`}
+                onClick={() => setActiveTab(schoolClasses.length)}
+                style={{ '--active-color': extraCurricular.color } as React.CSSProperties}
+              >
+                <span className={styles.tabIndicator} style={{ backgroundColor: extraCurricular.color }} />
+                Extracurriculars
+              </button>
             </div>
-            <div>
-              <span className="badge">Coaching Center</span>
-              <h2 className="section-title">Auxin Coaching Center — Class 1 to 12</h2>
-              <p className="section-subtitle">
-                After-school and evening coaching batches designed to strengthen concepts and boost exam scores.
-              </p>
-            </div>
-          </div>
 
-          <div className={styles.coachingGrid}>
-            {coachingGroups.map(g => (
-              <div key={g.label} className={`card ${styles.coachingCard}`}>
-                <div className={styles.coachingHeader}>
-                  <h3>{g.label}</h3>
-                  <span className={styles.fee}>{g.fee}</span>
+            {/* Right Content Panel */}
+            <div className={styles.contentPanel}>
+              <div className={styles.panelHeader} style={{ borderLeftColor: currentClass.color }}>
+                <div>
+                  <span className={styles.panelCategory} style={{ color: currentClass.color }}>
+                    {activeTab < schoolClasses.length ? 'Primary Academic Program' : 'Co-Curricular Activities'}
+                  </span>
+                  <h2>{currentClass.grade === 'Activities' ? 'Extracurricular Activities' : `${currentClass.grade} Program`}</h2>
                 </div>
-                <p className={styles.coachingDesc}>{g.desc}</p>
-                <div className={styles.subjectTags}>
-                  {g.subjects.map(s => (
-                    <span key={s} className={styles.tag}>{s}</span>
-                  ))}
+                <div className={styles.panelFee}>
+                  <span className={styles.feeLabel}>Tuition Fee</span>
+                  <span className={styles.feeVal}>{currentClass.fee}</span>
                 </div>
               </div>
-            ))}
+
+              <div className={styles.panelBody}>
+                <div className={styles.detailsGrid}>
+                  <div className={styles.detailItem}>
+                    <Clock size={20} style={{ color: currentClass.color }} />
+                    <div>
+                      <strong>Timing:</strong>
+                      <span>{currentClass.timing}</span>
+                    </div>
+                  </div>
+                  <div className={styles.detailItem}>
+                    <Award size={20} style={{ color: currentClass.color }} />
+                    <div>
+                      <strong>Development Focus:</strong>
+                      <span>{currentClass.objectives}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={styles.subjectsSection}>
+                  <h3>Subjects & Key Learning Modules</h3>
+                  <div className={styles.subjectGrid}>
+                    {currentClass.subjects.map(sub => (
+                      <div key={sub} className={styles.subjectCard}>
+                        <CheckCircle size={16} style={{ color: currentClass.color, flexShrink: 0 }} />
+                        <span>{sub}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className={styles.panelFooter}>
+                  <button 
+                    className={`btn btn-outline ${styles.downloadBtn}`}
+                    onClick={() => alert(`Downloading official Syllabus PDF for ${currentClass.grade}...`)}
+                  >
+                    <Download size={18} /> Download Syllabus PDF
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -142,7 +193,7 @@ export default function Courses() {
           </div>
           <div className={styles.enquiryBox}>
             <h3>Not Sure Which Program?</h3>
-            <p>Talk to us — we'll help you pick the right course and batch timing for your child.</p>
+            <p>Talk to us — we'll help you pick the right class and share admission steps for your child.</p>
             <Link to="/contact" className="btn btn-primary">
               Contact Us <ArrowRight size={18} />
             </Link>

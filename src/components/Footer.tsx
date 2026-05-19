@@ -10,7 +10,7 @@ export default function Footer() {
             <GraduationCap size={28} />
             <span><strong>Auxin</strong> Public School</span>
           </Link>
-          <p>Nurturing bright minds and building strong futures since our founding. We provide quality education for Classes 1–5 and comprehensive coaching for Classes 1–12.</p>
+          <p>Nurturing bright minds and building strong futures since our founding. We provide quality primary school education for Classes 1–5.</p>
         </div>
 
         <div>
@@ -31,11 +31,11 @@ export default function Footer() {
         <div>
           <h4>Programs</h4>
           <ul>
-            <li><Link to="/courses">School (Class 1–5)</Link></li>
-            <li><Link to="/courses">Coaching (Class 1–12)</Link></li>
+            <li><Link to="/courses">Primary School (Class 1–5)</Link></li>
             <li><Link to="/courses">Mathematics</Link></li>
             <li><Link to="/courses">Science</Link></li>
             <li><Link to="/courses">English</Link></li>
+            <li><Link to="/courses">Environmental Studies</Link></li>
           </ul>
         </div>
 
@@ -50,7 +50,7 @@ export default function Footer() {
       </div>
 
       <div className="footerBottom">
-        <p>© {new Date().getFullYear()} Auxin Public School & Coaching Center. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Auxin Public School. All rights reserved.</p>
       </div>
     </footer>
   )

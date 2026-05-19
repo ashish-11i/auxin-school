@@ -69,11 +69,11 @@ export default function Courses() {
   const currentClass = activeTab < schoolClasses.length ? schoolClasses[activeTab] : extraCurricular
 
   return (
-    <main style={{ paddingTop: 'var(--header-height, 106px)' }}>
+    <main className="animateFadeInUp">
       <section className={styles.hero}>
         <div className="container">
           <span className="badge">Programs & Curriculum</span>
-          <h1 className="section-title">Education for Every Stage</h1>
+          <h1 className="section-title">Education for Every <span className="gradientText">Stage</span></h1>
           <p className="section-subtitle">
             From Class 1 to Class 5 — we have the right primary program to help your child grow, learn, and excel.
           </p>
@@ -89,7 +89,7 @@ export default function Courses() {
             </div>
             <div>
               <span className="badge">Primary School</span>
-              <h2 className="section-title">Curriculum Explorer (Class 1–5)</h2>
+              <h2 className="section-title"><span className="gradientText">Curriculum Explorer</span> (Class 1–5)</h2>
               <p className="section-subtitle">
                 Explore the learning highlights, schedules, fees, and syllabus details for our primary education levels.
               </p>

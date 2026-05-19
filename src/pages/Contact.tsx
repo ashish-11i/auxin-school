@@ -42,11 +42,11 @@ export default function Contact() {
   }
 
   return (
-    <main style={{ paddingTop: 'var(--header-height, 106px)' }}>
+    <main className="animateFadeInUp">
       <section className={styles.hero}>
         <div className="container">
           <span className="badge">Get in Touch</span>
-          <h1 className="section-title">We'd Love to Hear From You</h1>
+          <h1 className="section-title">We'd Love to <span className="gradientText">Hear From You</span></h1>
           <p className="section-subtitle">
             Have a question about admissions, courses, or fees? Reach out — we'll get back to you promptly.
           </p>

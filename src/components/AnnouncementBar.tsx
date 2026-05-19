@@ -8,16 +8,21 @@ export default function AnnouncementBar() {
 
   if (!visible) return null
 
+  const tickerText = "★ Admissions Open for Session 2025–26! Limited seats available for Classes 1 to 5. ★ Parent-Teacher Meeting (PTM) scheduled on Saturday, May 24th. ★ World Environment Day Celebrations on June 5th."
+
   return (
     <div className={styles.bar}>
       <div className={`container ${styles.inner}`}>
         <Megaphone size={16} />
-        <p>
-          <strong>Admissions Open for Session 2025–26!</strong>
-          {' '}Limited seats available for School (Class 1–5).{' '}
-          <Link to="/contact">Enquire Now →</Link>
-        </p>
-        <button onClick={() => setVisible(false)} aria-label="Close">
+        <div className={styles.tickerContainer}>
+          <div className={styles.tickerWrapper}>
+            <div className={styles.tickerContent}>
+              <span>{tickerText} <Link to="/contact">Enquire Now →</Link></span>
+              <span>{tickerText} <Link to="/contact">Enquire Now →</Link></span>
+            </div>
+          </div>
+        </div>
+        <button onClick={() => setVisible(false)} aria-label="Close" className={styles.closeBtn}>
           <X size={16} />
         </button>
       </div>

@@ -36,12 +36,12 @@ const milestones = [
 
 export default function About() {
   return (
-    <main style={{ paddingTop: 'var(--header-height, 106px)' }}>
+    <main className="animateFadeInUp">
       {/* Hero */}
       <section className={styles.hero}>
         <div className="container">
           <span className="badge">About Us</span>
-          <h1 className="section-title">Nurturing Minds,<br />Building Strong Foundations</h1>
+          <h1 className="section-title"><span className="gradientText">Nurturing Minds</span>,<br />Building Strong Foundations</h1>
           <p className="section-subtitle">
             Auxin Public School has been a trusted beacon of quality primary education in Salempur, Deoria since 2014, committed to fostering curiosity and confidence.
           </p>
@@ -54,7 +54,7 @@ export default function About() {
           {/* Left Column: Our Story */}
           <div className={styles.storyCol}>
             <span className="badge">Our Story</span>
-            <h2 className="section-title">Nurturing Young Minds Since 2014</h2>
+            <h2 className="section-title"><span className="gradientText">Nurturing Young Minds</span> Since 2014</h2>
             <p className={styles.paragraph}>
               Auxin Public School was established under a simple, powerful vision: that quality, value-based primary education should be accessible to every family in Salempur, Deoria. What began with a handful of kids in a single classroom has blossomed into a trusted center of childhood education.
             </p>
@@ -106,7 +106,7 @@ export default function About() {
         <div className="container">
           <div className={`section-header ${styles.centered}`}>
             <span className="badge">Our Foundation</span>
-            <h2 className="section-title">Mission, Vision & Values</h2>
+            <h2 className="section-title">Mission, Vision & <span className="gradientText">Values</span></h2>
           </div>
           <div className={styles.mvvGrid}>
             {values.map(v => (
@@ -125,7 +125,7 @@ export default function About() {
         <div className="container">
           <div className={`section-header ${styles.centered}`}>
             <span className="badge">Our Journey</span>
-            <h2 className="section-title">Key Milestones</h2>
+            <h2 className="section-title">Key <span className="gradientText">Milestones</span></h2>
           </div>
           <div className={styles.timeline}>
             {milestones.map((m, i) => (
@@ -146,7 +146,7 @@ export default function About() {
         <div className="container">
           <div className={`section-header ${styles.centered}`}>
             <span className="badge">Our Team</span>
-            <h2 className="section-title">Meet Our Faculty</h2>
+            <h2 className="section-title">Meet Our <span className="gradientText">Faculty</span></h2>
             <p className="section-subtitle" style={{ margin: '0 auto' }}>
               Experienced, passionate educators who are committed to every child's success.
             </p>

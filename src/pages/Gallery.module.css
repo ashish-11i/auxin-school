@@ -1,6 +1,6 @@
 .hero {
   background: var(--hero-grad);
-  padding: 120px 0 60px;
+  padding: calc(var(--header-height, 106px) + 40px) 0 60px;
 }
 
 .filters {

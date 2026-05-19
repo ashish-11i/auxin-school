@@ -165,7 +165,7 @@ export default function Home() {
   }
 
   return (
-    <main>
+    <main className="animateFadeInUp">
       {/* Hero */}
       <section className={styles.hero}>
         <div className={`container ${styles.heroContent}`}>
@@ -231,7 +231,7 @@ export default function Home() {
         <div className="container">
           <div className="section-header">
             <span className="badge">What We Offer</span>
-            <h2 className="section-title">Education That Makes a Difference</h2>
+            <h2 className="section-title">Education That Makes a <span className="gradientText">Difference</span></h2>
             <p className="section-subtitle">
               Building strong academic foundations and personal character from Class 1 to 5.
             </p>
@@ -320,7 +320,7 @@ export default function Home() {
             <div className={styles.noticeCol}>
               <div className={styles.columnHead}>
                 <span className="badge">Announcements</span>
-                <h2 className="section-title">Notice Board</h2>
+                <h2 className="section-title"><span className="gradientText">Notice Board</span></h2>
               </div>
               <div className={styles.noticeList}>
                 {notices.map(n => (
@@ -345,7 +345,7 @@ export default function Home() {
             <div className={styles.eventCol}>
               <div className={styles.columnHead}>
                 <span className="badge">School Calendar</span>
-                <h2 className="section-title">Upcoming Events</h2>
+                <h2 className="section-title">Upcoming <span className="gradientText">Events</span></h2>
               </div>
               <div className={styles.eventList}>
                 {events.map((e, idx) => (
@@ -373,7 +373,7 @@ export default function Home() {
         <div className="container">
           <div className="section-header">
             <span className="badge">Frequently Asked Questions</span>
-            <h2 className="section-title">Common Questions from Parents</h2>
+            <h2 className="section-title">Common <span className="gradientText">Questions</span> from Parents</h2>
             <p className="section-subtitle">
               Find answers to the most common queries about admissions, schedules, transportation, and school policies.
             </p>

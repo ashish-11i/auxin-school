@@ -63,11 +63,11 @@ export default function Gallery() {
   }, [lightboxIndex, filtered])
 
   return (
-    <main style={{ paddingTop: 'var(--header-height, 106px)' }}>
+    <main className="animateFadeInUp">
       <section className={styles.hero}>
         <div className="container">
           <span className="badge">Gallery</span>
-          <h1 className="section-title">Life at Auxin Public School</h1>
+          <h1 className="section-title">Life at <span className="gradientText">Auxin Public School</span></h1>
           <p className="section-subtitle">
             A glimpse into our vibrant campus, classrooms, events, and proud achievements.
           </p>

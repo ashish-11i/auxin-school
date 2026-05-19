@@ -21,6 +21,8 @@ export default function Admin() {
   const [noticesList, setNoticesList] = useState<Notice[]>([])
   const [eventsList, setEventsList] = useState<EventItem[]>([])
   const [loading, setLoading] = useState(false)
+  const [publishing, setPublishing] = useState(false)
+  const [scheduling, setScheduling] = useState(false)
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null)
 
   // Forms states
@@ -85,44 +87,56 @@ export default function Admin() {
       setMessage({ text: 'Firebase is not configured. Notice cannot be saved.', type: 'error' })
       return
     }
-    setLoading(true)
-    const success = await addDbNotice({
-      title: noticeForm.title,
-      desc: noticeForm.desc,
-      tag: noticeForm.tag,
-      tagColor: noticeForm.tagColor,
-      date: noticeForm.date || new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
-      iconName: noticeForm.iconName
-    })
-
-    if (success) {
-      setMessage({ text: 'Notice published successfully!', type: 'success' })
-      setNoticeForm({
-        title: '',
-        desc: '',
-        tag: 'Notice',
-        tagColor: '#1a56db',
-        date: '',
-        iconName: 'alert'
+    setPublishing(true)
+    try {
+      const success = await addDbNotice({
+        title: noticeForm.title,
+        desc: noticeForm.desc,
+        tag: noticeForm.tag,
+        tagColor: noticeForm.tagColor,
+        date: noticeForm.date || new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+        iconName: noticeForm.iconName
       })
-      loadData()
-    } else {
-      setMessage({ text: 'Failed to publish notice.', type: 'error' })
+
+      if (success) {
+        setMessage({ text: 'Notice published successfully!', type: 'success' })
+        setNoticeForm({
+          title: '',
+          desc: '',
+          tag: 'Notice',
+          tagColor: '#1a56db',
+          date: '',
+          iconName: 'alert'
+        })
+        loadData()
+      } else {
+        setMessage({ text: 'Failed to publish notice. Database is not connected.', type: 'error' })
+      }
+    } catch (err: any) {
+      console.error(err)
+      setMessage({ text: `Error: ${err?.message || err}`, type: 'error' })
+    } finally {
+      setPublishing(false)
     }
-    setLoading(false)
   }
 
   const handleDeleteNotice = async (id: string) => {
     if (!confirm('Are you sure you want to delete this notice?')) return
     setLoading(true)
-    const success = await deleteDbNotice(id)
-    if (success) {
-      setMessage({ text: 'Notice deleted successfully.', type: 'success' })
-      loadData()
-    } else {
-      setMessage({ text: 'Failed to delete notice.', type: 'error' })
+    try {
+      const success = await deleteDbNotice(id)
+      if (success) {
+        setMessage({ text: 'Notice deleted successfully.', type: 'success' })
+        loadData()
+      } else {
+        setMessage({ text: 'Failed to delete notice.', type: 'error' })
+      }
+    } catch (err: any) {
+      console.error(err)
+      setMessage({ text: `Error: ${err?.message || err}`, type: 'error' })
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   const handleAddEvent = async (e: React.FormEvent) => {
@@ -131,42 +145,54 @@ export default function Admin() {
       setMessage({ text: 'Firebase is not configured. Event cannot be saved.', type: 'error' })
       return
     }
-    setLoading(true)
-    const success = await addDbEvent({
-      title: eventForm.title,
-      desc: eventForm.desc,
-      date: eventForm.date,
-      month: eventForm.month,
-      time: eventForm.time
-    })
-
-    if (success) {
-      setMessage({ text: 'Event added successfully!', type: 'success' })
-      setEventForm({
-        title: '',
-        desc: '',
-        date: '',
-        month: '',
-        time: ''
+    setScheduling(true)
+    try {
+      const success = await addDbEvent({
+        title: eventForm.title,
+        desc: eventForm.desc,
+        date: eventForm.date,
+        month: eventForm.month,
+        time: eventForm.time
       })
-      loadData()
-    } else {
-      setMessage({ text: 'Failed to add event.', type: 'error' })
+
+      if (success) {
+        setMessage({ text: 'Event added successfully!', type: 'success' })
+        setEventForm({
+          title: '',
+          desc: '',
+          date: '',
+          month: '',
+          time: ''
+        })
+        loadData()
+      } else {
+        setMessage({ text: 'Failed to add event.', type: 'error' })
+      }
+    } catch (err: any) {
+      console.error(err)
+      setMessage({ text: `Error: ${err?.message || err}`, type: 'error' })
+    } finally {
+      setScheduling(false)
     }
-    setLoading(false)
   }
 
   const handleDeleteEvent = async (id: string) => {
     if (!confirm('Are you sure you want to delete this event?')) return
     setLoading(true)
-    const success = await deleteDbEvent(id)
-    if (success) {
-      setMessage({ text: 'Event deleted successfully.', type: 'success' })
-      loadData()
-    } else {
-      setMessage({ text: 'Failed to delete event.', type: 'error' })
+    try {
+      const success = await deleteDbEvent(id)
+      if (success) {
+        setMessage({ text: 'Event deleted successfully.', type: 'success' })
+        loadData()
+      } else {
+        setMessage({ text: 'Failed to delete event.', type: 'error' })
+      }
+    } catch (err: any) {
+      console.error(err)
+      setMessage({ text: `Error: ${err?.message || err}`, type: 'error' })
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   if (!isLoggedIn) {
@@ -307,8 +333,8 @@ export default function Admin() {
                       </select>
                     </div>
                   </div>
-                  <button type="submit" className="btn btn-primary" disabled={loading} style={{ justifyContent: 'center' }}>
-                    <Plus size={18} /> Publish Announcement
+                  <button type="submit" className="btn btn-primary" disabled={publishing} style={{ justifyContent: 'center' }}>
+                    {publishing ? 'Publishing...' : <><Plus size={18} /> Publish Announcement</>}
                   </button>
                 </form>
               </div>
@@ -404,8 +430,8 @@ export default function Admin() {
                       required
                     />
                   </div>
-                  <button type="submit" className="btn btn-primary" disabled={loading} style={{ justifyContent: 'center' }}>
-                    <Plus size={18} /> Schedule Event
+                  <button type="submit" className="btn btn-primary" disabled={scheduling} style={{ justifyContent: 'center' }}>
+                    {scheduling ? 'Scheduling...' : <><Plus size={18} /> Schedule Event</>}
                   </button>
                 </form>
               </div>

@@ -1,9 +1,12 @@
 .loginSection {
-  min-height: calc(100vh - 106px);
+  padding-top: calc(var(--header-height, 106px) + 60px);
+  min-height: calc(100vh - var(--header-height, 106px));
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem 1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-bottom: 3rem;
   background: transparent;
 }
 

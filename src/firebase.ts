@@ -73,7 +73,7 @@ export async function addDbNotice(notice: Omit<Notice, 'id'>): Promise<string | 
     return docRef.id
   } catch (error) {
     console.error('Error adding notice to Firestore:', error)
-    return null
+    throw error
   }
 }
 
@@ -84,7 +84,7 @@ export async function deleteDbNotice(id: string): Promise<boolean> {
     return true
   } catch (error) {
     console.error('Error deleting notice from Firestore:', error)
-    return false
+    throw error
   }
 }
 
@@ -121,7 +121,7 @@ export async function addDbEvent(event: Omit<EventItem, 'id'>): Promise<string |
     return docRef.id
   } catch (error) {
     console.error('Error adding event to Firestore:', error)
-    return null
+    throw error
   }
 }
 
@@ -132,7 +132,7 @@ export async function deleteDbEvent(id: string): Promise<boolean> {
     return true
   } catch (error) {
     console.error('Error deleting event from Firestore:', error)
-    return false
+    throw error
   }
 }
 
